@@ -15,11 +15,28 @@ def get_user_permissions_list(request):
         user=request.POST.get('user')
         if user is None:
             response['res_str'] ="Mandatory param missing"
+            return HttpResonse(reponse)
     except Exception as e:
             response['res_str']=str(e)
+    all_roles = get_key_value(user,'roles') # List
+    permission_list = []
+    for roles in all_roles:
+        permissions = get_key_value(roles,'permissions')
+        permission_list + permissions
+    perm_name = []
+    for permission in permission_list:
+        permission_name = get_key_value(permission,'name')
+        perm_name + permission_name
+    response['res_str']=perm_name
+    return HttpResponse(json.dumps(response))
+
+def get_key_value(identifier,return_field):
     with open(pwd+user_file_name,'r+b') as userfile:
         for lines in userfile:
-            print lines
-            lines=lines.rstrip("\n")
-            lines =eval(json.loads(lines))
-    return HttpResponse(json.dumps(response))
+            lines=lines.rstrip("\n") 
+            lines_json =eval(json.loads(lines))
+            if lines_json['id'] == identifier:
+                all_values = lines_json[return_field]
+    return all_values
+
+    
