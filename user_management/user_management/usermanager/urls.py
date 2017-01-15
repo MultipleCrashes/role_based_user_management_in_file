@@ -18,5 +18,5 @@ from django.contrib import admin
 from usermanager import views
 from django.views.decorators.csrf import csrf_exempt 
 urlpatterns = [
-    url(r'^getuserpermissions/', csrf_exempt(views.get_user_permissions),name='getuserperms'),
+    url(r'^getuserpermissionslist/', csrf_exempt(views.get_user_permissions_list),name='getuserperms'),
 ]
