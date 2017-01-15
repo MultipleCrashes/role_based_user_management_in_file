@@ -3,7 +3,7 @@ import json
 
 with open('userapp.txt','wb') as userapp_file:
     #user
-    userapp_file.write(json.dumps({"id":"user1","roles":["role1","role3"]}))
+    userapp_file.write(json.dumps(str({"id":"user1","roles":["role1","role3"]})))
     userapp_file.write("\n")
     #roles
     userapp_file.write(json.dumps(str({"id":"role1","permissions":["perm1","perm5"]})))

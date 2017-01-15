@@ -1,4 +1,4 @@
-{"id": "user1", "roles": ["role1", "role3"]}
+"{'id': 'user1', 'roles': ['role1', 'role3']}"
 "{'id': 'role1', 'permissions': ['perm1', 'perm5']}"
 "{'id': 'role3', 'permissions': ['perm6', 'perm7']}"
 "{'id': 'perm1', 'name': 'Can check balance'}"
