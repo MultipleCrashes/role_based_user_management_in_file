@@ -19,6 +19,7 @@ def get_user_permissions_list(request):
             response['res_str']=str(e)
     with open(pwd+user_file_name,'r+b') as userfile:
         for lines in userfile:
-            lines = json.loads(lines)
             print lines
+            lines=lines.rstrip("\n")
+            lines =eval(json.loads(lines))
     return HttpResponse(json.dumps(response))
