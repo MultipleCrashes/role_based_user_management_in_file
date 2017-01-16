@@ -12,7 +12,7 @@ def get_user_permissions_list(request):
     response = {"res_str":"","res_code":200}
     user = ''
     try:
-        user=request.POST.get('user')
+        user=request.GET.get('user')
         if user is None:
             response['res_str'] ="Mandatory param missing"
             response['res_code']=400
