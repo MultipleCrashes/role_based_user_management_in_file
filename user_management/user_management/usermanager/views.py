@@ -11,6 +11,10 @@ user_file_name = 'userapp.txt'
 def get_user_permissions_list(request):
     response = {"res_str":"","res_code":200}
     user = ''
+    if not request.method=='GET':
+        response['res_str']='Method not allowed'
+        response['res_code'] = 405 
+        return HttpResponse(json.dumps(response))
     try:
         user=request.GET.get('user')
         if user is None:
