@@ -32,6 +32,7 @@ def get_user_permissions_list(request):
     return HttpResponse(json.dumps(response))
 
 def get_key_value(identifier,return_field):
+    all_values =''
     with open(pwd+user_file_name,'r+b') as userfile:
         for lines in userfile:
             lines=lines.rstrip("\n") 
