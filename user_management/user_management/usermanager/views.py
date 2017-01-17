@@ -47,7 +47,8 @@ def get_key_value(identifier,return_field):
     return all_values
 
 def get_entitled(request):
-    response ={"res_str":"","res_code":200}
+    '''If perm id is found in any of user chain then True else false'''
+    response ={"res_str":"False","res_code":200}
     user = ''
     if not request.method=='GET':
         response['res_str']='Method not allowed'
@@ -55,9 +56,23 @@ def get_entitled(request):
         return HttpResponse(json.dumps(response))
     try:
         user = request.GET.get('user')
-        permissions = request.POST.get('user')
+        permissions = request.POST.get('permission')
     except Exception as e:
         print "Exception found while getting request params",str(e)
+    all_roles = get_key_value(user,'roles') # List
+    permission_list = []
+    for roles in all_roles:
+        perms = get_key_value(roles,'permissions')
+        permission_list = permission_list + perms
+        perm_name = []
+        for permission in permission_list:
+            permission_name = get_key_value(permission,'name')
+            perm_name = perm_name + [permission_name]
+            response['res_str']=perm_name
+            print "permissions -> ",permissions
+            #if permissions in permission:
+            #    response['res_str'] = True 
+            #    return HttpResponse(json.dumps(reponse))
     return HttpResponse(json.dumps(response))        
 
 
@@ -101,7 +116,6 @@ def delete_permission(request):
         response['res_str']='Method not allowed'
         response['res_code'] = 405 
         return HttpResponse(json.dumps(response))
-
     try:
         role = request.POST.get('role')
         permission = request.POST.get('permission')
