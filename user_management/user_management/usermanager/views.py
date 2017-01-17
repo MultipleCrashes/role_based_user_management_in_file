@@ -35,6 +35,7 @@ def get_user_permissions_list(request):
     response['res_str']=perm_name
     return HttpResponse(json.dumps(response))
 
+
 def get_key_value(identifier,return_field):
     all_values =''
     with open(pwd+user_file_name,'r+b') as userfile:
@@ -48,8 +49,12 @@ def get_key_value(identifier,return_field):
 def get_entitled(request):
     response ={"res_str":"","res_code":200}
     user = ''
+    if not request.method=='GET':
+        response['res_str']='Method not allowed'
+        response['res_code'] = 405
+        return HttpResponse(json.dumps(response))
     try:
-        user = request.POST.get('user')
+        user = request.GET.get('user')
         permissions = request.POST.get('user')
     except Exception as e:
         print "Exception found while getting request params",str(e)
@@ -60,6 +65,11 @@ def modify_permission(request):
     response = {"res_str":"","res_code":200}
     role = ''
     permission = ''
+    if not request.method=='POST':
+        response['res_str']='Method not allowed'
+        response['res_code'] = 405
+        return HttpResponse(json.dumps(response))
+
     try:
         role = request.POST.get('role')
         permission = request.POST.get('permission')
@@ -75,12 +85,37 @@ def modify_permission(request):
             lines=lines.rstrip("\n")
             lines_json =eval(json.loads(lines))
             if lines_json['id']==role:
-                print "Found",role
-                print "Replacing permissions with",permission
                 print "lines",lines_json
                 lines_json['permissions']=[permission]
                 new_permission = lines_json['permissions']
                 print "new line",lines_json
+    response['res_str'] = new_permission         
+    return HttpResponse(json.dumps(response))
+
+
+def delete_permission(request):
+    response = {"res_str":"","res_code":200}
+    role = ''
+    permission = ''
+    if not request.method=='POST':
+        response['res_str']='Method not allowed'
+        response['res_code'] = 405 
+        return HttpResponse(json.dumps(response))
+
+    try:
+        role = request.POST.get('role')
+        permission = request.POST.get('permission')
+        new_permission=''
+        if role==None or permission==None:
+            response['res_str']='Mandatory parameter missing'
+    except Exception as e:
+        print "Exception found while getting values in request",str(e)
+        response['res_str'] = str(e) 
+        response['res_code'] = 400
+    with open(pwd+user_file_name,'rw') as userfile:
+        for lines in userfile:
+            lines=lines.rstrip("\n")
+            lines_json =eval(json.loads(lines))
     response['res_str'] = new_permission         
     return HttpResponse(json.dumps(response))
 
