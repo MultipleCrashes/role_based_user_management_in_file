@@ -56,7 +56,11 @@ def get_entitled(request):
         return HttpResponse(json.dumps(response))
     try:
         user = request.GET.get('user')
-        permissions = request.POST.get('permission')
+        permissions = request.GET.get('permission')
+        if user==None or permissions==None:
+            response['res_str']="Missing mandatory parameter"
+            return HttpResponse(json.dumps(response))
+        print "Permission",permissions
     except Exception as e:
         print "Exception found while getting request params",str(e)
     all_roles = get_key_value(user,'roles') # List
@@ -65,14 +69,16 @@ def get_entitled(request):
         perms = get_key_value(roles,'permissions')
         permission_list = permission_list + perms
         perm_name = []
+        print "list",permission_list
         for permission in permission_list:
             permission_name = get_key_value(permission,'name')
             perm_name = perm_name + [permission_name]
             response['res_str']=perm_name
             print "permissions -> ",permissions
-            #if permissions in permission:
-            #    response['res_str'] = True 
-            #    return HttpResponse(json.dumps(reponse))
+            if permissions in permission:
+                print "User is permitted for the action",permissions
+                response['res_str'] = True 
+                return HttpResponse(json.dumps(response))
     return HttpResponse(json.dumps(response))        
 
 
