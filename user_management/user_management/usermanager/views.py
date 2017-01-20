@@ -2,11 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponse 
 # Create your views here.
 import os 
-pwd = os.path.dirname(os.path.abspath('__file__')) 
-print "pwd ",pwd
-import json 
 
 user_file_name = 'userapp.txt'
+DATA_FILE_DIR = os.path.dirname(os.path.abspath('__file__')) 
+DATA_FILE = DATA_FILE_DIR + os.sep + 'usermanager' + os.sep + user_file_name
+import json 
+
 
 def get_user_permissions_list(request):
     response = {"res_str":"","res_code":200}
@@ -38,7 +39,7 @@ def get_user_permissions_list(request):
 
 def get_key_value(identifier,return_field):
     all_values =''
-    with open(pwd+os.sep+'usermanager'+os.sep+user_file_name,'r+b') as userfile:
+    with open(DATA_FILE,'r+b') as userfile:
         for lines in userfile:
             lines=lines.rstrip("\n") 
             lines_json =eval(json.loads(lines))
@@ -101,7 +102,7 @@ def modify_permission(request):
         print "Exception found while getting values in request",str(e)
         response['res_str'] = str(e) 
         response['res_code'] = 400
-    with open(pwd+user_file_name,'rw') as userfile:
+    with open(DATA_FILE,'rw') as userfile:
         for lines in userfile:
             lines=lines.rstrip("\n")
             lines_json =eval(json.loads(lines))
@@ -132,7 +133,7 @@ def delete_permission(request):
         print "Exception found while getting values in request",str(e)
         response['res_str'] = str(e) 
         response['res_code'] = 400
-    with open(pwd+user_file_name,'rw') as userfile:
+    with open(DATA_FILE,'rw') as userfile:
         for lines in userfile:
             lines=lines.rstrip("\n")
             lines_json =eval(json.loads(lines))
