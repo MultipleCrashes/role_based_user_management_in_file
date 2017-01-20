@@ -49,7 +49,7 @@ def get_key_value(identifier,return_field):
 
 def get_entitled(request):
     '''If perm id is found in any of user chain then True else false'''
-    response ={"res_str":"False","res_code":200}
+    response ={"res_str":"","res_code":200}
     user = ''
     if not request.method=='GET':
         response['res_str']='Method not allowed'
@@ -80,6 +80,7 @@ def get_entitled(request):
                 print "User is permitted for the action",permissions
                 response['res_str'] = True 
                 return HttpResponse(json.dumps(response))
+    response['res_str']= False
     return HttpResponse(json.dumps(response))        
 
 
@@ -91,7 +92,6 @@ def modify_permission(request):
         response['res_str']='Method not allowed'
         response['res_code'] = 405
         return HttpResponse(json.dumps(response))
-
     try:
         role = request.POST.get('role')
         permission = request.POST.get('permission')
