@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse 
 # Create your views here.
 import os 
-pwd = '/home/biswajit/user_management_project/user_management/user_management/usermanager/'
+pwd = os.path.dirname(os.path.abspath('__file__')) 
 print "pwd ",pwd
 import json 
 
@@ -38,7 +38,7 @@ def get_user_permissions_list(request):
 
 def get_key_value(identifier,return_field):
     all_values =''
-    with open(pwd+user_file_name,'r+b') as userfile:
+    with open(pwd+os.sep+'usermanager'+os.sep+user_file_name,'r+b') as userfile:
         for lines in userfile:
             lines=lines.rstrip("\n") 
             lines_json =eval(json.loads(lines))
