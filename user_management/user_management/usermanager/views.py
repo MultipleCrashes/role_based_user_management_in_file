@@ -112,11 +112,11 @@ def modify_permission(request):
                     lines_json['permissions']=[permission]
                     new_permission = lines_json['permissions']
                     print "new line",lines_json
-                    newfile.write(str(lines_json))
+                    newfile.write(json.dumps(lines_json)+"\n")
                 else:
-                    newfile.write(str(lines))
+                    newfile.write(str(lines)+"\n")
         os.remove(DATA_FILE)
-        shutil.move(DATA_FILE+'temp',DATA_FILE)
+        os.rename(str(DATA_FILE+'temp'),DATA_FILE)
     response['res_str'] = new_permission         
     return HttpResponse(json.dumps(response))
 
