@@ -125,6 +125,7 @@ def delete_permission(request):
     response = {"res_str":"","res_code":200}
     role = ''
     permission = ''
+    new_permission = ''
     if not request.method=='POST':
         response['res_str']='Method not allowed'
         response['res_code'] = 405 
@@ -132,8 +133,7 @@ def delete_permission(request):
     try:
         role = request.POST.get('role')
         permission = request.POST.get('permission')
-        new_permission=''
-        if role==None or permission==None:
+        if (role==None) or (permission==None):
             response['res_str']='Mandatory parameter missing'
     except Exception as e:
         print "Exception found while getting values in request",str(e)
@@ -145,8 +145,11 @@ def delete_permission(request):
                 lines=lines.rstrip("\n")
                 lines_json =eval(json.loads(lines))
                 if lines_json['id']==role:
-                    print "lines",lines_json
-                    lines_json['permissions']=lines_json[permissions].remove(permission)
+                    try:
+                        print "Removing permission",permission
+                        lines_json['permissions']=lines_json['permissions'].remove(permission)
+                    except Exception as e:
+                        response['res_str'] = str(e)
                     new_permission = lines_json['permissions']
                     print "new line",lines_json
                     newfile.write(json.dumps(str(lines_json))+"\n")
