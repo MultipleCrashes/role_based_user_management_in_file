@@ -139,10 +139,21 @@ def delete_permission(request):
         print "Exception found while getting values in request",str(e)
         response['res_str'] = str(e) 
         response['res_code'] = 400
-    with open(DATA_FILE,'rw') as userfile:
-        for lines in userfile:
-            lines=lines.rstrip("\n")
-            lines_json =eval(json.loads(lines))
+    with open(DATA_FILE+'temp','w') as newfile:
+        with open(DATA_FILE,'r+') as userfile:
+            for lines in userfile:
+                lines=lines.rstrip("\n")
+                lines_json =eval(json.loads(lines))
+                if lines_json['id']==role:
+                    print "lines",lines_json
+                    lines_json['permissions']=lines_json[permissions].remove(permission)
+                    new_permission = lines_json['permissions']
+                    print "new line",lines_json
+                    newfile.write(json.dumps(str(lines_json))+"\n")
+                else:
+                    newfile.write(str(lines)+"\n")
+        os.remove(DATA_FILE)
+        os.rename(str(DATA_FILE+'temp'),DATA_FILE)
     response['res_str'] = "new_permission:"+str(new_permission)      
     return HttpResponse(json.dumps(response))
 
