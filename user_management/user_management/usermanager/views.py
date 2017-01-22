@@ -94,7 +94,7 @@ def modify_permission(request):
         return HttpResponse(json.dumps(response))
     try:
         role = request.POST.get('role')
-        permission = request.POST.get('permission')
+        permission = request.POST.get('permission').split(',')
         new_permission=''
         if role==None or permission==None:
             response['res_str']='Mandatory parameter missing'
@@ -109,7 +109,7 @@ def modify_permission(request):
                 lines_json =eval(json.loads(lines))
                 if lines_json['id']==role:
                     print "lines",lines_json
-                    lines_json['permissions']=[permission]
+                    lines_json['permissions']=permission
                     new_permission = lines_json['permissions']
                     print "new line",lines_json
                     newfile.write(json.dumps(str(lines_json))+"\n")
