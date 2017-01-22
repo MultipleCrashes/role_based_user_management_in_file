@@ -95,6 +95,7 @@ def modify_permission(request):
     try:
         role = request.POST.get('role')
         permission = request.POST.get('permission').split(',')
+        permission = [str(x) for x in permission] # convert to list without unicode
         new_permission=''
         if role==None or permission==None:
             response['res_str']='Mandatory parameter missing'
@@ -132,7 +133,9 @@ def delete_permission(request):
         return HttpResponse(json.dumps(response))
     try:
         role = request.POST.get('role')
-        permission = request.POST.get('permission')
+        permission = request.POST.get('permission').split(',')
+        permission = [str(x) for x in permission]
+        print "permission",permission
         if (role==None) or (permission==None):
             response['res_str']='Mandatory parameter missing'
     except Exception as e:
@@ -146,8 +149,8 @@ def delete_permission(request):
                 lines_json =eval(json.loads(lines))
                 if lines_json['id']==role:
                     try:
-                        print "Removing permission",permission
-                        lines_json['permissions']=lines_json['permissions'].remove(permission)
+                        print "Taking diff of ",set(lines_json['permissions']) - set(permission)
+                        lines_json['permissions']=list(set(lines_json['permissions']) -set(permission))
                     except Exception as e:
                         response['res_str'] = str(e)
                     new_permission = lines_json['permissions']
