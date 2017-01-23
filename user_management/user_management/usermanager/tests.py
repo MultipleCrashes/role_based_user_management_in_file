@@ -36,3 +36,50 @@ class UserManagerTestCase(TestCase):
         print "Expected response text     -> {\"res_str\": [\"Can check balance\", \"Can deposit\", \"Can Transfer\", \"Can withdraw\"], \"res_code\": 200}"
         self.assertEquals(str(res['res_str']),str([u'Can check balance', u'Can deposit', u'Can Transfer', u'Can withdraw']))
         print "="*20
+
+
+    def check_permission_status_code_correct_perm(self,user='user1',perm='perm5'):
+        api_uri = API_SERVER+ '/usermanager/checkpermission/?user='+user+'&permission='+perm
+        try:
+            user_permissions_name = request.get(api_uri)
+        except Exception as e:
+            print "Exception found while executing get query",str(e)
+        res = json.loads(user_permissions_name.text)
+        print "Response status code -> ",res.status_code
+        print res.status_code
+        self.assertEquals(str(res['res_str']),True)
+
+    def check_permission_status_code_no_perm(self,user='user1',perm='perm500'):
+        api_uri = API_SERVER+ '/usermanager/checkpermission/?user='+user+'&permission='+perm
+        try:
+            user_permissions_name = request.get(api_uri)
+        except Exception as e:
+            print "Exception found while executing get query",str(e)  
+        res = json.loads(user_permissions_name.text)
+        print "Response status code ->",res.status_code
+        print res.status_code
+        self.assertEquals(str(res['res_str']),False)      
+
+    def check_permission_status_code_correct_perm(self,user='user1',perm='perm5'):
+        api_uri = API_SERVER+ '/usermanager/checkpermission/?user='+user+'&permission='+perm
+        try:
+            user_permissions_name = request.get(api_uri)
+        except Exception as e:
+            print "Exception found while executing get query",str(e)
+        res = json.loads(user_permissions_name.text)
+        print "Response status code -> ",res.status_code
+        print res.status_code
+        self.assertEquals(str(res['res_code']),200)    
+
+    def check_permission_status_code_wrong_perm(self,user='user1',perm='perm50'):
+        api_uri = API_SERVER+ '/usermanager/checkpermission/?user='+user+'&permission='+perm
+        try:
+            user_permissions_name = request.get(api_uri)
+        except Exception as e:
+            print "Exception found while executing get query",str(e)
+        res = json.loads(user_permissions_name.text)
+        print "Response status code -> ",res.status_code
+        print res.status_code
+        self.assertEquals(str(res['res_code']),200)    
+
+
