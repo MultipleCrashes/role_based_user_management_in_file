@@ -15,11 +15,15 @@ class UserManagerTestCase(TestCase):
     def test_user_api_status_code(self,user='user1'):
         print "Api url",API_SERVER+'usermanager/user/?user='+user
         try:
+            print "Sending get request -> ",API_SERVER+'usermanager/user/?user='+user
             user_permissions_name = requests.get(API_SERVER+'usermanager/user/?user='+user)
         except Exception as e:
             print "Exception found while hitting get api->",str(e)
+        print "Response for get request  ->",user_permissions_name.text
+        print "Expecte response text     -> {\"res_str\": [\"Can check balance\", \"Can deposit\", \"Can Transfer\", \"Can withdraw\"], \"res_code\": 200}"
+        print "Status code of get request-> ",user_permissions_name.status_code
+        print "Expected status code :    ->  200 "
         self.assertEqual(user_permissions_name.status_code,200)
-        print "user get api called",user_permissions_name.status_code
 
     def test_user_api_response_str(self,user='user1'):
         try:
