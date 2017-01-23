@@ -48,6 +48,7 @@ class UserManagerTestCase(TestCase):
         print "Response status code -> ",res.status_code
         print res.status_code
         self.assertEquals(str(res['res_str']),True)
+        print "="*20
 
     def check_permission_status_code_no_perm(self,user='user1',perm='perm500'):
         api_uri = API_SERVER+ '/usermanager/checkpermission/?user='+user+'&permission='+perm
@@ -59,6 +60,8 @@ class UserManagerTestCase(TestCase):
         print "Response status code ->",res.status_code
         print res.status_code
         self.assertEquals(str(res['res_str']),False)      
+        print "="*20        
+
 
     def check_permission_status_code_correct_perm(self,user='user1',perm='perm5'):
         api_uri = API_SERVER+ '/usermanager/checkpermission/?user='+user+'&permission='+perm
@@ -70,6 +73,8 @@ class UserManagerTestCase(TestCase):
         print "Response status code -> ",res.status_code
         print res.status_code
         self.assertEquals(str(res['res_code']),200)    
+        print "="*20
+
 
     def check_permission_status_code_wrong_perm(self,user='user1',perm='perm50'):
         api_uri = API_SERVER+ '/usermanager/checkpermission/?user='+user+'&permission='+perm
@@ -81,5 +86,8 @@ class UserManagerTestCase(TestCase):
         print "Response status code -> ",res.status_code
         print res.status_code
         self.assertEquals(str(res['res_code']),200)    
+        print "="*20
+        
+        
 
 
