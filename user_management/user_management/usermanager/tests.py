@@ -38,7 +38,7 @@ class UserManagerTestCase(TestCase):
         print "="*20
 
 
-    def check_permission_status_code_correct_perm(self,user='user1',perm='perm5'):
+    def test_check_permission_status_code_correct_perm(self,user='user1',perm='perm5'):
         api_uri = API_SERVER+ '/usermanager/checkpermission/?user='+user+'&permission='+perm
         try:
             user_permissions_name = request.get(api_uri)
@@ -50,7 +50,7 @@ class UserManagerTestCase(TestCase):
         self.assertEquals(str(res['res_str']),True)
         print "="*20
 
-    def check_permission_status_code_no_perm(self,user='user1',perm='perm500'):
+    def test_check_permission_status_code_no_perm(self,user='user1',perm='perm500'):
         api_uri = API_SERVER+ '/usermanager/checkpermission/?user='+user+'&permission='+perm
         try:
             user_permissions_name = request.get(api_uri)
@@ -63,7 +63,7 @@ class UserManagerTestCase(TestCase):
         print "="*20        
 
 
-    def check_permission_status_code_correct_perm(self,user='user1',perm='perm5'):
+    def test_check_permission_status_code_correct_perm(self,user='user1',perm='perm5'):
         api_uri = API_SERVER+ '/usermanager/checkpermission/?user='+user+'&permission='+perm
         try:
             user_permissions_name = request.get(api_uri)
@@ -76,7 +76,7 @@ class UserManagerTestCase(TestCase):
         print "="*20
 
 
-    def check_permission_status_code_wrong_perm(self,user='user1',perm='perm50'):
+    def test_check_permission_status_code_wrong_perm(self,user='user1',perm='perm50'):
         api_uri = API_SERVER+ '/usermanager/checkpermission/?user='+user+'&permission='+perm
         try:
             user_permissions_name = request.get(api_uri)
