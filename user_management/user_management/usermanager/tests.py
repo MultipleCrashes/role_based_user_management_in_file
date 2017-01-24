@@ -99,14 +99,14 @@ class PermissionTestCase(TestCase):
         
 
         
-class RolesTestCase(TestCase):
+class ModifyTestCase(TestCase):
     
     def setUp(self):
         print "\n"+"="*20
         pass         
 
 
-    def test_roles_response_str(self,role='role1',permission='perm4'):
+    def test_modify_permission_response_str(self,role='role1',permission='perm4'):
         api_uri = API_SERVER+ 'usermanager/roles/'
         res =''
         try:
@@ -118,11 +118,44 @@ class RolesTestCase(TestCase):
         print "Got response string  -> ",res
         self.assertEquals(str(res['res_str']),str([u'perm4']))
 
-    def test_roles_response_code(self,role='role1',permission='perm4'):
+    def test_modify_permission_response_code(self,role='role1',permission='perm4'):
         api_uri = API_SERVER+ 'usermanager/roles/'
         res =''
         try:
             res = requests.post(api_uri,data={"role":role,"permission":"perm4"})
+        except Exception as e:
+            print "Exception found while executing get query",str(e)
+        res = json.loads(res.text)
+        #print "Expected response string {"res_str": ["perm4"], "res_code": 200}"
+        print "Got response string  -> ",res
+        self.assertEquals(res['res_code'],200)
+
+
+        
+class DeletePermissionTestCase(TestCase):
+    
+    def setUp(self):
+        print "\n"+"="*20
+        pass   
+
+    def test_delete_permission_res_code(self,role='role3',permission='perm7'):
+        api_uri = API_SERVER+ 'usermanager/roles/'
+        res =''
+        try:
+            res = requests.post(api_uri,data={"role":role,"permission":"perm4"})
+        except Exception as e:
+            print "Exception found while executing get query",str(e)
+        res = json.loads(res.text)
+        #print "Expected response string {"res_str": ["perm4"], "res_code": 200}"
+        print "Got response string  -> ",res
+        self.assertEquals(str(res['res_str']),str("[u'perm4']"))
+
+
+    def test_delete_permission_res_str(self,role='role3',permission='perm4'):
+        api_uri = API_SERVER+ 'usermanager/roles/'
+        res =''
+        try:
+            res = requests.post(api_uri,data={"role":role,"permission":permission})
         except Exception as e:
             print "Exception found while executing get query",str(e)
         res = json.loads(res.text)
