@@ -8,7 +8,7 @@ import json
 
 API_SERVER = 'http://127.0.0.1:8000/'
 
-class UserManagerTestCase(TestCase):
+class UserPermissionsTestCase(TestCase):
     
     def setUp(self):
         print "\n"+"="*20
@@ -39,7 +39,7 @@ class UserManagerTestCase(TestCase):
         self.assertEquals(str(res['res_str']),str([u'Can check balance', u'Can deposit', u'Can Transfer', u'Can withdraw']))
 
 
-class PermissionTestCase(TestCase):
+class PermissionGetEntitledTestCase(TestCase):
     
     def setUp(self):
         print "\n"+"="*20
@@ -99,7 +99,7 @@ class PermissionTestCase(TestCase):
         
 
         
-class ModifyTestCase(TestCase):
+class ModifyPermissionTestCase(TestCase):
     
     def setUp(self):
         print "\n"+"="*20
