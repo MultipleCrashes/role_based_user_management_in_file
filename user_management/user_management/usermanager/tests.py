@@ -5,6 +5,7 @@ import requests
 import unittest 
 import json 
 
+
 API_SERVER = 'http://127.0.0.1:8000/'
 
 class UserManagerTestCase(TestCase):
@@ -105,7 +106,7 @@ class RolesTestCase(TestCase):
         pass         
 
 
-    def test_roles(self,role='role1',permission='perm4'):
+    def test_roles_response_str(self,role='role1',permission='perm4'):
         api_uri = API_SERVER+ 'usermanager/roles/'
         res =''
         try:
@@ -116,3 +117,15 @@ class RolesTestCase(TestCase):
         #print "Expected response string {"res_str": ["perm4"], "res_code": 200}"
         print "Got response string  -> ",res
         self.assertEquals(str(res['res_str']),str([u'perm4']))
+
+    def test_roles_response_code(self,role='role1',permission='perm4'):
+        api_uri = API_SERVER+ 'usermanager/roles/'
+        res =''
+        try:
+            res = requests.post(api_uri,data={"role":role,"permission":"perm4"})
+        except Exception as e:
+            print "Exception found while executing get query",str(e)
+        res = json.loads(res.text)
+        #print "Expected response string {"res_str": ["perm4"], "res_code": 200}"
+        print "Got response string  -> ",res
+        self.assertEquals(res['res_code'],200)
