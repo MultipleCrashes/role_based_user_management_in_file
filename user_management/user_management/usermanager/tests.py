@@ -117,6 +117,9 @@ class ModifyPermissionTestCase(TestCase):
         #print "Expected response string {"res_str": ["perm4"], "res_code": 200}"
         print "Got response string  -> ",res
         self.assertEquals(str(res['res_str']),str([u'perm4']))
+        # Revert back original perms
+        res = requests.post(api_uri,data={"role":role,"permission":'perm1,perm5'})
+       
 
     def test_modify_permission_response_code(self,role='role1',permission='perm4'):
         api_uri = API_SERVER+ 'usermanager/roles/'
@@ -149,6 +152,11 @@ class DeletePermissionTestCase(TestCase):
         #print "Expected response string {"res_str": ["perm4"], "res_code": 200}"
         print "Got response string  -> ",res
         self.assertEquals(str(res['res_str']),str("[u'perm4']"))
+        # Revert back teardown
+        api_uri = API_SERVER+ 'usermanager/roles/'
+        res = requests.post(api_uri,data={"role":role,"permission":"perm6,perm7"})
+
+
 
 
     def test_delete_permission_res_str(self,role='role3',permission='perm4'):
@@ -162,3 +170,6 @@ class DeletePermissionTestCase(TestCase):
         #print "Expected response string {"res_str": ["perm4"], "res_code": 200}"
         print "Got response string  -> ",res
         self.assertEquals(res['res_code'],200)
+        # Revert back
+        api_uri = API_SERVER+ 'usermanager/roles/'
+        res = requests.post(api_uri,data={"role":role,"permission":"perm6,perm7"})
