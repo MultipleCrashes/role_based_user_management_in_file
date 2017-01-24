@@ -10,19 +10,20 @@ API_SERVER = 'http://127.0.0.1:8000/'
 class UserManagerTestCase(TestCase):
     
     def setUp(self):
+        print "\n"+"="*20
         pass 
 
     def test_user_api_status_code(self,user='user1'):
         print "Api url",API_SERVER+'usermanager/user/?user='+user
+        print "Sending get request -> ",API_SERVER+'usermanager/user/?user='+user
         try:
-            print "Sending get request -> ",API_SERVER+'usermanager/user/?user='+user
             user_permissions_name = requests.get(API_SERVER+'usermanager/user/?user='+user)
         except Exception as e:
             print "Exception found while hitting get api->",str(e)
         print "Status code of get request-> ",user_permissions_name.status_code
         print "Expected status code :    ->  200 "
         self.assertEqual(user_permissions_name.status_code,200)
-        print "-"*20
+
 
     def test_user_api_response_str(self,user='user1'):
         print "Sending get request -> ",API_SERVER+'usermanager/user/?user='+user
@@ -35,7 +36,6 @@ class UserManagerTestCase(TestCase):
         print "Response for get request  ->",user_permissions_name.text
         print "Expected response text     -> {\"res_str\": [\"Can check balance\", \"Can deposit\", \"Can Transfer\", \"Can withdraw\"], \"res_code\": 200}"
         self.assertEquals(str(res['res_str']),str([u'Can check balance', u'Can deposit', u'Can Transfer', u'Can withdraw']))
-        print "-"*20
 
 
 class PermissionTestCase(TestCase):
@@ -56,7 +56,7 @@ class PermissionTestCase(TestCase):
         print "Response status code -> ",res.status_code
         print "Expected status code -> 200",
         self.assertEquals(res.status_code,200)
-        print "\n"+"="*20
+
 
     def test_permission_check_status_code_no_perm(self,user='user1',perm='perm500'):
         api_uri = API_SERVER+ 'usermanager/checkpermission/?user='+user+'&permission='+perm
@@ -68,8 +68,7 @@ class PermissionTestCase(TestCase):
         print "Response status code -> ",res.status_code
         print "Expected status code -> 200",
         self.assertEquals(res.status_code,200)
-        print "\n"+"="*20
-
+        
 
     def test_check_res_string_correct_perm(self,user='user1',perm='perm5'):
         api_uri = API_SERVER+ 'usermanager/checkpermission/?user='+user+'&permission='+perm
@@ -82,7 +81,7 @@ class PermissionTestCase(TestCase):
         print "Expected response string {u'res_str': True, u'res_code': 200}"
         print "Got response string  -> ",res
         self.assertEquals(res['res_str'],True)    
-        print "="*20
+        
 
 
     def test_check_res_string_wrong_perm(self,user='user1',perm='perm50'):
@@ -96,7 +95,7 @@ class PermissionTestCase(TestCase):
         print "Expected response string {u'res_str': False, u'res_code': 200}"
         print "Got response string  -> ",res
         self.assertEquals(res['res_str'],False)    
-        print "="*20
+        
 
         
         
