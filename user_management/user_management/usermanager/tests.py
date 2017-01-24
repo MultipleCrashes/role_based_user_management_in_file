@@ -98,6 +98,21 @@ class PermissionTestCase(TestCase):
         
 
         
-        
+class RolesTestCase(TestCase):
+    
+    def setUp(self):
+        print "\n"+"="*20
+        pass         
 
 
+    def test_roles(self,role='role1',permission='perm4'):
+        api_uri = API_SERVER+ 'usermanager/roles/'
+        res =''
+        try:
+            res = requests.post(api_uri,data={"role":role,"permission":"perm4"})
+        except Exception as e:
+            print "Exception found while executing get query",str(e)
+        res = json.loads(res.text)
+        #print "Expected response string {"res_str": ["perm4"], "res_code": 200}"
+        print "Got response string  -> ",res
+        self.assertEquals(str(res['res_str']),str([u'perm4']))
