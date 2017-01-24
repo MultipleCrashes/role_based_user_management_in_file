@@ -116,6 +116,7 @@ class ModifyPermissionTestCase(TestCase):
         res = json.loads(res.text)
         #print "Expected response string {"res_str": ["perm4"], "res_code": 200}"
         print "Got response string  -> ",res
+        print "Expected response string {u'res_str': [u'perm4'], u'res_code': 200}"
         self.assertEquals(str(res['res_str']),str([u'perm4']))
         # Revert back original perms
         res = requests.post(api_uri,data={"role":role,"permission":'perm1,perm5'})
@@ -129,7 +130,7 @@ class ModifyPermissionTestCase(TestCase):
         except Exception as e:
             print "Exception found while executing get query",str(e)
         res = json.loads(res.text)
-        #print "Expected response string {"res_str": ["perm4"], "res_code": 200}"
+        print "Expected response string  {u'res_str': [u'perm4'], u'res_code': 200}"
         print "Got response string  -> ",res
         self.assertEquals(res['res_code'],200)
 
@@ -149,7 +150,7 @@ class DeletePermissionTestCase(TestCase):
         except Exception as e:
             print "Exception found while executing get query",str(e)
         res = json.loads(res.text)
-        #print "Expected response string {"res_str": ["perm4"], "res_code": 200}"
+        print "Expected response string {u'res_str': [u'perm4'], u'res_code': 200}"
         print "Got response string  -> ",res
         self.assertEquals(str(res['res_str']),str("[u'perm4']"))
         # Revert back teardown
@@ -167,7 +168,7 @@ class DeletePermissionTestCase(TestCase):
         except Exception as e:
             print "Exception found while executing get query",str(e)
         res = json.loads(res.text)
-        #print "Expected response string {"res_str": ["perm4"], "res_code": 200}"
+        print "Expected response string {u'res_str': [u'perm4'], u'res_code': 200}"
         print "Got response string  -> ",res
         self.assertEquals(res['res_code'],200)
         # Revert back
