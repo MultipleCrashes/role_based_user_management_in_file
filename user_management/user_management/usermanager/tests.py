@@ -22,7 +22,7 @@ class UserManagerTestCase(TestCase):
         print "Status code of get request-> ",user_permissions_name.status_code
         print "Expected status code :    ->  200 "
         self.assertEqual(user_permissions_name.status_code,200)
-        print "="*20
+        print "-"*20
 
     def test_user_api_response_str(self,user='user1'):
         print "Sending get request -> ",API_SERVER+'usermanager/user/?user='+user
@@ -35,25 +35,31 @@ class UserManagerTestCase(TestCase):
         print "Response for get request  ->",user_permissions_name.text
         print "Expected response text     -> {\"res_str\": [\"Can check balance\", \"Can deposit\", \"Can Transfer\", \"Can withdraw\"], \"res_code\": 200}"
         self.assertEquals(str(res['res_str']),str([u'Can check balance', u'Can deposit', u'Can Transfer', u'Can withdraw']))
-        print "="*20
+        print "-"*20
 
 
-    def test_check_permission_status_code_correct_perm(self,user='user1',perm='perm5'):
-        api_uri = API_SERVER+ '/usermanager/checkpermission/?user='+user+'&permission='+perm
+class PermissionTestCase(TestCase):
+    
+    def setUp(self):
+        print "\n"+"="*20
+        pass 
+
+    def test_permission_check_status_code_correct_perm(self,user='user1',perm='perm5'):
+        api_uri = API_SERVER+ 'usermanager/checkpermission/?user='+user+'&permission='+perm
         user_permissions_name =''
+        print "Sending get request" ,api_uri
+        print "API URL",api_uri
         try:
-            user_permissions_name = requests.get(api_uri)
+            res = requests.get(api_uri)
         except Exception as e:
             print "Exception found while executing get query",str(e)
-        print "user permission -> ",user_permissions_name
-        res = user_permissions_name.text
         print "Response status code -> ",res.status_code
-        print res.status_code
-        self.assertEquals(str(res['res_str']),True)
-        print "="*20
+        print "Expected status code -> 200",
+        self.assertEquals(res.status_code,200)
+        print "\n"+"="*20
 
-    def test_check_permission_status_code_no_perm(self,user='user1',perm='perm500'):
-        api_uri = API_SERVER+ '/usermanager/checkpermission/?user='+user+'&permission='+perm
+    def test_permission_check_status_code_no_perm(self,user='user1',perm='perm500'):
+        api_uri = API_SERVER+ 'usermanager/checkpermission/?user='+user+'&permission='+perm
         user_permissions_name =''
         try:
             user_permissions_name = requests.get(api_uri)
@@ -68,7 +74,7 @@ class UserManagerTestCase(TestCase):
 
 
     def test_check_permission_status_code_correct_perm(self,user='user1',perm='perm5'):
-        api_uri = API_SERVER+ '/usermanager/checkpermission/?user='+user+'&permission='+perm
+        api_uri = API_SERVER+ 'usermanager/checkpermission/?user='+user+'&permission='+perm
         user_permissions_name =''
         try:
             user_permissions_name = requests.get(api_uri)
@@ -83,7 +89,7 @@ class UserManagerTestCase(TestCase):
 
 
     def test_check_permission_status_code_wrong_perm(self,user='user1',perm='perm50'):
-        api_uri = API_SERVER+ '/usermanager/checkpermission/?user='+user+'&permission='+perm
+        api_uri = API_SERVER+ 'usermanager/checkpermission/?user='+user+'&permission='+perm
         user_permissions_name =''
         try:
             user_permissions_name = requests.get(api_uri)
