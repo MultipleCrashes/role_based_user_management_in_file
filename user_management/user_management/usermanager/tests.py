@@ -62,33 +62,30 @@ class PermissionTestCase(TestCase):
         api_uri = API_SERVER+ 'usermanager/checkpermission/?user='+user+'&permission='+perm
         user_permissions_name =''
         try:
-            user_permissions_name = requests.get(api_uri)
+            res = requests.get(api_uri)
         except Exception as e:
             print "Exception found while executing get query",str(e)  
-        print "user_permissions_name",user_permissions_name
-        # res = json.loads(user_permissions_name.text)
-        # print "Response status code ->",res.status_code
-        # print res.status_code
-        # self.assertEquals(str(res['res_str']),False)      
-        # print "="*20        
+        print "Response status code -> ",res.status_code
+        print "Expected status code -> 200",
+        self.assertEquals(res.status_code,200)
+        print "\n"+"="*20
 
 
-    def test_check_permission_status_code_correct_perm(self,user='user1',perm='perm5'):
+    def test_check_res_string_correct_perm(self,user='user1',perm='perm5'):
         api_uri = API_SERVER+ 'usermanager/checkpermission/?user='+user+'&permission='+perm
         user_permissions_name =''
         try:
-            user_permissions_name = requests.get(api_uri)
+            res = requests.get(api_uri)
         except Exception as e:
             print "Exception found while executing get query",str(e)
-        print "user permission name",user_permissions_name
-        # res = json.loads(user_permissions_name.text)
-        # print "Expected status code -> 200"
-        # print "Response status code -> ",user_permissions_name['res_code']
-        # self.assertEquals(str(res['res_code']),200)    
+        res = json.loads(res.text)
+        print "Expected response string {u'res_str': True, u'res_code': 200}"
+        print "Got response string  -> ",res
+        self.assertEquals(res['res_str'],True)    
         # print "="*20
 
 
-    def test_check_permission_status_code_wrong_perm(self,user='user1',perm='perm50'):
+    def test_check_res_string_wrong_perm(self,user='user1',perm='perm50'):
         api_uri = API_SERVER+ 'usermanager/checkpermission/?user='+user+'&permission='+perm
         user_permissions_name =''
         try:
