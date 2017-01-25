@@ -58,6 +58,20 @@ class PermissionGetEntitledTestCase(TestCase):
         print "Expected status code -> 200",
         self.assertEquals(res.status_code,200)
 
+    def test_permission_check_post_request(self,user='user1',perm='perm5'):
+        api_uri = API_SERVER+ 'usermanager/checkpermission/?user='+user+'&permission='+perm
+        res =''
+        print "Sending get request" ,api_uri
+        print "API URL",api_uri
+        try:
+            res = requests.post(api_uri)
+        except Exception as e:
+            print "Exception found while executing get query",str(e)
+        res = json.loads(res.text)
+        print "Response status code -> ",res
+        print "Expected status code -> 405",
+        self.assertEquals(res['res_code'],405)
+
 
     def test_permission_check_status_code_no_perm(self,user='user1',perm='perm500'):
         api_uri = API_SERVER+ 'usermanager/checkpermission/?user='+user+'&permission='+perm
