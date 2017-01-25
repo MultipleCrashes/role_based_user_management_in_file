@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django_nose',
 ]
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-NOSE_ARGS = [ '--with-coverage','--cover-package=foo,bar',]
+NOSE_ARGS = [ '--with-coverage','--cover-package=usermanager',]
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
